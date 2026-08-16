@@ -1,0 +1,24 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: ""
+public_folder: ""
+
+collections:
+  - name: content
+    label: "Conteúdo do Site"
+    files:
+      - name: site
+        label: "Configurações do Site"
+        file: "site-content.json"
+        fields:
+          - {label: "Título Hero", name: "hero", widget: "object", fields: [
+              {label: "Título", name: "title", widget: "string"},
+              {label: "Subtítulo", name: "subtitle", widget: "string"}
+            ]}
+          - {label: "Sobre Malu", name: "sobre", widget: "object", fields: [
+              {label: "Título", name: "title", widget: "string"},
+              {label: "Descrição", name: "description", widget: "text"},
+              {label: "Bio Longa", name: "bioLonga", widget: "markdown"}
+            ]}
