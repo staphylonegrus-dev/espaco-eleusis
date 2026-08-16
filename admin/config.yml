@@ -2,6 +2,8 @@ backend:
   name: github
   repo: staphylonegrus-dev/espaco-eleusis
   branch: main
+  base_url: https://espaco-eleusis.pages.dev  # Aquí va tu URL de Cloudflare
+  auth_endpoint: /api/auth # Esto requiere un Worker de proxy
 
 media_folder: ""
 public_folder: ""
@@ -23,7 +25,7 @@ collections:
               {label: "Imagem de Fundo (nome)", name: "backgroundImage", widget: "string"}
             ]}
           - {label: "Seção Sobre Malu", name: "sobre", widget: "object", fields: [
-              {label: "Nome/Título", name: "title", widget: "string"},
+              {label: "Título", name: "title", widget: "string"},
               {label: "Descrição Principal", name: "description", widget: "text"},
               {label: "Descrição Secundária", name: "description2", widget: "text"},
               {label: "Bio Longa (Saber Mais)", name: "bioLonga", widget: "markdown"},
