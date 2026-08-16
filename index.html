@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço Elêusis - Psicologia Junguiana & Mindfulness em São Paulo</title>
+    <meta name="description" content="Psicologia Junguiana e Mindfulness em São Paulo. Atendimento presencial e online com Malu (Maria Lucia) - Psicóloga Clínica desde 1994.">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Calendly Widget -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --color-cream-50: #fdfcfa;
+            --color-cream-100: #faf7f2;
+            --color-cream-200: #f3ebe0;
+            --color-cream-300: #e8dccb;
+            --color-beige-400: #d9c7a8;
+            --color-beige-500: #c4a97a;
+            --color-brown-600: #8b7355;
+            --color-brown-700: #6d5a45;
+            --color-brown-800: #544635;
+            --color-olive-500: #6b7c5a;
+            --color-olive-600: #556048;
+            --color-olive-700: #454d39;
+            --color-gold: #c9a85c;
+            --color-gold-hover: #b8964a;
+            --color-gold-light: #e8d4a8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .btn-primary {
+            background-color: var(--color-gold);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--color-gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 168, 92, 0.35);
+        }
+        
+        .btn-secondary {
+            border: 2px solid var(--color-brown-600);
+            color: var(--color-brown-700);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--color-brown-600);
+            color: white;
+        }
+        
+        .btn-secondary-light {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary-light:hover {
+            background-color: white;
+            color: var(--color-brown-700);
+        }
+        
+        @keyframes pulse-whatsapp {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); }
+        }
+        
+        .whatsapp-float {
+            animation: pulse-whatsapp 2s infinite;
+        }
+        
+        section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .hero-overlay {
+            background: linear-gradient(to bottom, 
+                rgba(84, 70, 53, 0.25) 0%, 
+                rgba(84, 70, 53, 0.45) 50%, 
+                rgba(84, 70, 53, 0.65) 100%);
+        }
+        
+        .img-natural {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--color-cream-100);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-beige-500);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-brown-600);
+        }
+        
+        .credential-item {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .credential-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6rem;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-gold);
+            border-radius: 50%;
+        }
+        
+        .app-section {
+            display: none;
+        }
+        
+        .app-section:not(.hidden) {
+            display: block;
+        }
+        
+        .calendar-day {
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-day:hover:not(.disabled) {
+            transform: scale(1.05);
+        }
+        
+        .time-slot {
+            transition: all 0.2s ease;
+        }
+        
+        .time-slot:hover:not(.disabled) {
+            background-color: var(--color-olive-500);
+            color: white;
+        }
+        
+        .booking-card {
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-stone-700 antialiased">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <a href="#" class="flex items-center gap-2">
+                    <span class="font-display text-xl sm:text-2xl font-semibold text-brown-800">Espaço Elêusis</span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#sobre" class="text-brown-700 hover:text-brown-800 transition text-sm font-medium">Sobre</a>
+                    <a href="espaco.html" class="text-brown-700 hover:text-brown-800 transition text-sm font-medium">O Espaço</a>
+                    <a href="#servicos" class="text-brown-700 hover:text-brown-800 transition text-sm font-medium">Serviços</a>
+                    <a href="#contato" class="btn-primary px-6 py-2.5 rounded-full font-medium text-sm">
+                        Agendar Sessão
+                    </a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-brown-700" aria-label="Menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+                <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-cream-200">
+                    <div class="px-4 py-4 space-y-3">
+                        <a href="#sobre" class="block text-brown-700 hover:text-brown-800 py-2 font-medium">Sobre</a>
+                        <a href="espaco.html" class="block text-brown-700 hover:text-brown-800 py-2 font-medium">O Espaço</a>
+                        <a href="#servicos" class="block text-brown-700 hover:text-brown-800 py-2 font-medium">Serviços</a>
+                        <a href="#contato" class="block btn-primary text-center px-5 py-3 rounded-full font-medium">
+                            Agendar Sessão
+                        </a>
+                    </div>
+                </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center">
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="flordemeterencampodetrigo.jpg" 
+                alt="Campo de flores de Deméter - Espaço Elêusis"
+                class="w-full h-full object-cover"
+            >
+            <div class="hero-overlay absolute inset-0"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+            <div class="max-w-2xl">
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight mb-6 drop-shadow-lg">
+                    Viva o presente da vida com uma vida presente
+                </h1>
+                <p class="text-xl sm:text-2xl text-cream-100 mb-8 font-light drop-shadow">
+                    Psicologia Junguiana & Mindfulness em São Paulo.<br>
+                    <span class="text-cream-200">Um espaço de autocuidado e renascimento.</span>
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contato" class="btn-primary px-8 py-4 rounded-full font-semibold text-lg text-center">
+                        Agendar Sessão
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="bg-cream-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="relative w-64 h-64 mx-auto lg:w-80 lg:h-80">
+                        <img 
+                            src="fotodemalu.jpeg" 
+                            alt="Malu - Psicóloga Junguiana em São Paulo"
+                            class="w-full h-full object-cover object-top rounded-full shadow-md"
+                        >
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2">
+                    <span class="text-olive-600 font-medium text-sm uppercase tracking-wider">Sobre Mim</span>
+                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-brown-800 mt-2 mb-6">
+                        Malu (Maria Lucia)
+                    </h2>
+                    <p class="text-lg text-brown-700 mb-6 leading-relaxed">
+                        <strong>Psicóloga Clínica com mais de 25 anos de experiência</strong> (desde 1994). Psicoterapia de Abordagem Junguiana.
+                    </p>
+                    <p class="text-brown-600 mb-8 leading-relaxed">
+                        Minha trajetória combina a prática clínica com a pesquisa acadêmica, oferecendo um espaço seguro e fundamentado para o seu processo de autoconhecimento e transformação.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="credential-item">
+                            <p class="font-semibold text-brown-800">Historiadora</p>
+                            <p class="text-sm text-brown-600">PUC-SP, 1987</p>
+                        </div>
+                        
+                        <div class="credential-item">
+                            <p class="font-semibold text-brown-800">Instrutora de Mindfulness Certificada</p>
+                            <p class="text-sm text-brown-600">Desde 2017</p>
+                        </div>
+                        
+                        <div class="credential-item">
+                            <p class="font-semibold text-brown-800">Mestre em Saúde Coletiva</p>
+                            <p class="text-sm text-brown-600">UNIFESP, 2018</p>
+                        </div>
+                        
+                        <div class="credential-item">
+                            <p class="font-semibold text-brown-800">Pesquisadora e Coordenadora</p>
+                            <p class="text-sm text-brown-600">Ambulatório de Mindfulness Brasil (Mente Aberta/UNIFESP)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Botão Saber Mais - Redirige a página separada -->
+                    <a href="sobre-mim.html" class="mt-8 btn-secondary px-6 py-3 rounded-full font-medium text-sm inline-flex items-center gap-2 hover:no-underline">
+                        <span>Saber Mais</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Services Section -->
+    <section id="servicos" class="bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-olive-600 font-medium text-sm uppercase tracking-wider">Serviços</span>
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-brown-800 mt-2">
+                    O que ofereço
+                </h2>
+            </div>
+            
+            <div id="services-container" class="grid md:grid-cols-3 gap-8">
+                <!-- Services will be rendered dynamically by admin-content.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section with Local Booking System -->
+    <section id="contato" class="bg-cream-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="text-olive-600 font-medium text-sm uppercase tracking-wider">Contato</span>
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl text-brown-800 mt-2">
+                    Entre em contato e agende sua sessão
+                </h2>
+                <p class="text-brown-600 mt-4">
+                    Selecione a data e horário disponíveis
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden p-6 sm:p-8">
+                
+                <!-- Step 1: Calendar -->
+                <div id="calendar-section" class="mb-8">
+                    <h3 class="font-display text-xl text-brown-800 mb-4">1. Escolha a Data</h3>
+                    <div class="bg-cream-50 rounded-xl p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <button id="prev-month" class="p-2 hover:bg-cream-200 rounded-lg transition">
+                                <svg class="w-5 h-5 text-brown-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <span id="current-month" class="font-semibold text-brown-800"></span>
+                            <button id="next-month" class="p-2 hover:bg-cream-200 rounded-lg transition">
+                                <svg class="w-5 h-5 text-brown-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                            <span class="text-xs text-brown-500">Dom</span>
+                            <span class="text-xs text-brown-500">Seg</span>
+                            <span class="text-xs text-brown-500">Ter</span>
+                            <span class="text-xs text-brown-500">Qua</span>
+                            <span class="text-xs text-brown-500">Qui</span>
+                            <span class="text-xs text-brown-500">Sex</span>
+                            <span class="text-xs text-brown-500">Sáb</span>
+                        </div>
+                        <div id="calendar-grid" class="grid grid-cols-7 gap-1">
+                            <!-- Calendar days will be generated by JS -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Time Slots -->
+                <div id="time-slots-container" class="mb-8 hidden">
+                    <h3 class="font-display text-xl text-brown-800 mb-4">2. Escolha o Horário</h3>
+                    <p id="selected-date-display" class="text-brown-600 mb-4"></p>
+                    <div id="time-slots" class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                        <!-- Time slots will be generated by JS -->
+                    </div>
+                </div>
+                
+                <!-- Step 3: Booking Form -->
+                <div id="booking-form-container" class="hidden mb-8">
+                    <h3 class="font-display text-xl text-brown-800 mb-4">3. Seus Dados</h3>
+                    <p id="selected-datetime" class="text-olive-600 font-medium mb-4"></p>
+                    
+                    <form id="booking-form" class="space-y-4">
+                        <input type="hidden" name="service" id="service-input">
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-brown-700 mb-1">Nome completo</label>
+                            <input type="text" name="clientName" required class="w-full px-4 py-3 rounded-lg border border-cream-200 focus:border-olive-500 focus:ring-2 focus:ring-olive-200 outline-none transition">
+                        </div>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-brown-700 mb-1">Email</label>
+                                <input type="email" name="clientEmail" required class="w-full px-4 py-3 rounded-lg border border-cream-200 focus:border-olive-500 focus:ring-2 focus:ring-olive-200 outline-none transition">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-brown-700 mb-1">WhatsApp</label>
+                                <input type="tel" name="clientPhone" required placeholder="(11) 99999-9999" class="w-full px-4 py-3 rounded-lg border border-cream-200 focus:border-olive-500 focus:ring-2 focus:ring-olive-200 outline-none transition">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-brown-700 mb-1">Observações (opcional)</label>
+                            <textarea name="notes" rows="3" placeholder="Conte um pouco sobre o que busca..." class="w-full px-4 py-3 rounded-lg border border-cream-200 focus:border-olive-500 focus:ring-2 focus:ring-olive-200 outline-none transition"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full btn-primary py-4 rounded-full font-semibold text-lg mt-4">
+                            Solicitar Agendamento
+                        </button>
+                        <p class="text-xs text-brown-500 text-center mt-2">
+                            Não é necessário criar conta. Malu entrará em contato para confirmar.
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- Booking Success Message -->
+                <div id="booking-success" class="hidden text-center py-8">
+                    <!-- Success message will be inserted by JS -->
+                </div>
+                
+                <!-- Alternative Contact Options -->
+                <div class="mt-10 pt-8 border-t border-cream-200">
+                    <p class="text-center text-brown-600 mb-6">Ou entre em contato por</p>
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <!-- WhatsApp -->
+                        <a 
+                            href="https://wa.me/5511972750589?text=Ol%C3%A1%2C%20Malu.%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20agendar%20uma%20sess%C3%A3o." 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-4 p-5 bg-olive-50 rounded-xl hover:bg-olive-100 transition group"
+                        >
+                            <div class="w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="font-medium text-brown-800">WhatsApp</p>
+                                <p class="text-sm text-brown-600 hidden">+55 11 97275-0589</p>
+                            </div>
+                            <svg class="w-5 h-5 text-olive-600 ml-auto group-hover:translate-x-1 transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                        
+                        <!-- Email -->
+                        <a 
+                            href="mailto:espacoeleusis@gmail.com"
+                            class="flex items-center gap-4 p-5 bg-gold-light/30 rounded-xl hover:bg-gold-light/50 transition group"
+                        >
+                            <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="font-medium text-brown-800">Email</p>
+                                <p class="text-sm text-brown-600 truncate hidden">espacoeleusis@gmail.com</p>
+                            </div>
+                            <svg class="w-5 h-5 text-brown-500 ml-auto group-hover:translate-x-1 transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div class="mt-6 pt-6 border-t border-cream-200 flex flex-col sm:flex-row items-center justify-center gap-2 text-brown-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span>São Paulo, Brasil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brown-800 text-cream-100 py-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+                <div class="text-center md:text-left">
+                    <span class="font-display text-2xl font-semibold text-cream-50">Espaço Elêusis</span>
+                    <p class="text-brown-400 text-sm mt-2">Psicologia Junguiana & Mindfulness</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="#sobre" class="text-brown-300 hover:text-cream-100 transition text-sm">Sobre</a>
+                        <a href="espaco.html" class="text-brown-300 hover:text-cream-100 transition text-sm">O Espaço</a>
+                        <a href="#servicos" class="text-brown-300 hover:text-cream-100 transition text-sm">Serviços</a>
+                        <a href="#contato" class="text-brown-300 hover:text-cream-100 transition text-sm">Contato</a>
+                    </div>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <p class="text-brown-400 text-sm">© 2024 Espaço Elêusis</p>
+                    <p class="text-brown-500 text-xs mt-1">Todos os direitos reservados</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a 
+        href="https://wa.me/5511972750589?text=Ol%C3%A1%2C%20Malu.%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20agendar%20uma%20sess%C3%A3o." 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="whatsapp-float fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition hover:scale-110"
+        aria-label="Agendar via WhatsApp"
+    >
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+    
+    <!-- Booking System Script -->
+    <script src="booking-system.js"></script>
+    
+    <!-- Admin Content Management Script -->
+    <script src="admin-content.js"></script>
+</body>
+</html>
