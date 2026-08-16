@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: staphylonegrus-dev/espaco-eleusis
   branch: main
 
 media_folder: ""
@@ -10,15 +11,57 @@ collections:
     label: "Conteúdo do Site"
     files:
       - name: site
-        label: "Configurações do Site"
+        label: "Página Inicial"
         file: "site-content.json"
         fields:
-          - {label: "Título Hero", name: "hero", widget: "object", fields: [
-              {label: "Título", name: "title", widget: "string"},
-              {label: "Subtítulo", name: "subtitle", widget: "string"}
+          - {label: "Seção Hero", name: "hero", widget: "object", fields: [
+              {label: "Título Principal", name: "title", widget: "string"},
+              {label: "Subtítulo", name: "subtitle", widget: "string"},
+              {label: "Subtítulo Alternativo", name: "subtitleAlt", widget: "string"},
+              {label: "Botão Agendar", name: "ctaPrimary", widget: "string"},
+              {label: "Botão Conheça", name: "ctaSecondary", widget: "string"},
+              {label: "Imagem de Fundo (nome)", name: "backgroundImage", widget: "string"}
             ]}
-          - {label: "Sobre Malu", name: "sobre", widget: "object", fields: [
+          - {label: "Seção Sobre Malu", name: "sobre", widget: "object", fields: [
+              {label: "Nome/Título", name: "title", widget: "string"},
+              {label: "Descrição Principal", name: "description", widget: "text"},
+              {label: "Descrição Secundária", name: "description2", widget: "text"},
+              {label: "Bio Longa (Saber Mais)", name: "bioLonga", widget: "markdown"},
+              {label: "Foto (nome)", name: "image", widget: "string"},
+              {label: "Credenciais", name: "credentials", widget: "list", fields: [
+                {label: "Título", name: "title", widget: "string"},
+                {label: "Subtítulo", name: "subtitle", widget: "string"}
+              ]}
+            ]}
+          - {label: "Seção Espaço", name: "espaco", widget: "object", fields: [
+              {label: "Título Seção", name: "title", widget: "string"},
+              {label: "Exibir no Site", name: "showOnSite", widget: "boolean"},
+              {label: "Posts", name: "posts", widget: "list", fields: [
+                {label: "Título Post", name: "title", widget: "string"},
+                {label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD"},
+                {label: "Descrição", name: "description", widget: "text"},
+                {label: "Citação", name: "quote", widget: "text"},
+                {label: "Autor Citação", name: "quoteAuthor", widget: "string"},
+                {label: "Imagem Post", name: "image", widget: "string"},
+                {label: "Publicado", name: "published", widget: "boolean"}
+              ]}
+            ]}
+          - {label: "Seção Serviços", name: "servicos", widget: "object", fields: [
               {label: "Título", name: "title", widget: "string"},
-              {label: "Descrição", name: "description", widget: "text"},
-              {label: "Bio Longa", name: "bioLonga", widget: "markdown"}
+              {label: "Cabeçalho", name: "heading", widget: "string"},
+              {label: "Mostrar Preços", name: "showPrices", widget: "boolean"},
+              {label: "Serviços Oferecidos", name: "services", widget: "list", fields: [
+                {label: "Título", name: "title", widget: "string"},
+                {label: "Descrição", name: "description", widget: "text"},
+                {label: "Preço", name: "price", widget: "string"},
+                {label: "Mostrar Preço", name: "showPrice", widget: "boolean"},
+                {label: "Características (uma por linha)", name: "features", widget: "list"}
+              ]}
+            ]}
+          - {label: "Seção Contato", name: "contato", widget: "object", fields: [
+              {label: "Título", name: "title", widget: "string"},
+              {label: "Cabeçalho", name: "heading", widget: "string"},
+              {label: "Descrição", name: "description", widget: "string"},
+              {label: "WhatsApp", name: "whatsapp", widget: "string"},
+              {label: "Email", name: "email", widget: "string"}
             ]}
