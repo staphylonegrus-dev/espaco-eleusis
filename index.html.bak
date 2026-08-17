@@ -562,5 +562,25 @@
     
     <!-- Admin Content Management Script -->
     <script src="admin-content.js"></script>
+
+    <!-- Script para inicializar el contenido -->
+    <script>
+        // Esperar a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el contenido
+            if (typeof initContentManagement === 'function') {
+                initContentManagement();
+            } else {
+                console.error('initContentManagement no está definido');
+            }
+
+            // Aplicar el contenido
+            if (typeof applyContent === 'function') {
+                applyContent();
+            } else {
+                console.error('applyContent no está definido');
+            }
+        });
+    </script>
 </body>
 </html>

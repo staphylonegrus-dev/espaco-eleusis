@@ -139,8 +139,12 @@ function loadContent() {
 // Load content from server asynchronously
 async function loadContentFromServer() {
     try {
+        // Determine correct path to site-content.json based on current page location
+        const isInAdmin = window.location.pathname.includes('/admin/');
+        const contentPath = isInAdmin ? '../site-content.json' : 'site-content.json';
+        
         // Fetch the static JSON file
-        const response = await fetch('../site-content.json');
+        const response = await fetch(contentPath);
         if (!response.ok) throw new Error('File not found');
         const data = await response.json();
         // Merge and return
@@ -1697,6 +1701,226 @@ function previewModalSection(section) {
     }
     
     body.innerHTML = html;
+}
+
+// ============ CORE FUNCTIONS ============
+
+/**
+ * Inicializa o sistema de gerenciamento de conteúdo
+ */
+async function initContentManagement() {
+    console.log('Iniciando gerenciamento de conteúdo...');
+    
+    try {
+        // 1. Carregar conteúdo do servidor (site-content.json)
+        const serverContent = await loadContentFromServer();
+        
+        if (serverContent) {
+            // Merge com o conteúdo padrão para garantir que todos os campos existam
+            SITE_CONTENT = deepMerge(loadContent(), serverContent);
+            console.log('Conteúdo carregado do servidor com sucesso');
+        } else {
+            // Se falhar, carregar do localStorage ou usar padrão
+            SITE_CONTENT = loadContent();
+            console.log('Usando conteúdo padrão/localStorage');
+        }
+        
+        // 2. Aplicar conteúdo ao site (se estiver na index ou espaço)
+        applyContentToSite(SITE_CONTENT);
+        
+        // 3. Se estiver na página de administração, renderizar o editor
+        if (document.getElementById('admin-editor')) {
+            renderContentEditor();
+        }
+        
+        return SITE_CONTENT;
+    } catch (error) {
+        console.error('Erro ao inicializar gerenciamento de conteúdo:', error);
+        SITE_CONTENT = loadContent();
+        applyContentToSite(SITE_CONTENT);
+        return SITE_CONTENT;
+    }
+}
+
+/**
+ * Aplica o conteúdo aos elementos do site (index.html e espaco.html)
+ */
+function applyContentToSite(content) {
+    if (!content) return;
+
+    // --- HERO SECTION (index.html) ---
+    const heroTitle = document.querySelector('#hero h1');
+    if (heroTitle) heroTitle.textContent = content.hero.title;
+
+    const heroSubtitle = document.querySelector('#hero p');
+    if (heroSubtitle) heroSubtitle.textContent = content.hero.subtitle;
+
+    const heroCta = document.querySelector('#hero a');
+    if (heroCta) heroCta.textContent = content.hero.ctaPrimary;
+
+    const heroImg = document.querySelector('#hero img');
+    if (heroImg) {
+        heroImg.src = resolveImagePath(content.hero.backgroundImage);
+        const pos = content.hero.imagePosition;
+        if (pos && typeof pos.x !== 'undefined') {
+            heroImg.style.objectPosition = `${pos.x}% ${pos.y}%`;
+        }
+    }
+
+    // --- SOBRE SECTION (index.html) ---
+    const sobreTitle = document.querySelector('#sobre h2');
+    if (sobreTitle) sobreTitle.textContent = content.sobre.title;
+
+    const sobreDesc = document.querySelector('#sobre p.text-lg');
+    if (sobreDesc) sobreDesc.textContent = content.sobre.description;
+
+    const sobreDesc2 = document.querySelector('#sobre p.text-brown-600');
+    if (sobreDesc2) sobreDesc2.textContent = content.sobre.description2;
+
+    const sobreImg = document.getElementById('sobre-image');
+    if (sobreImg) {
+        sobreImg.src = resolveImagePath(content.sobre.image);
+        const pos = content.sobre.imagePosition;
+        if (pos && typeof pos.x !== 'undefined') {
+            sobreImg.style.objectPosition = `${pos.x}% ${pos.y}%`;
+        }
+    }
+
+    // --- SERVIÇOS SECTION (index.html) ---
+    const servicesContainer = document.getElementById('services-container');
+    if (servicesContainer && content.servicos) {
+        const services = content.servicos.services || [];
+        const showPrices = content.servicos.showPrices !== false;
+        
+        servicesContainer.innerHTML = services.map(s => {
+            const showPrice = showPrices && s.showPrice;
+            const features = s.features || [];
+            return `
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-cream-200 hover:shadow-md transition-all duration-300 flex flex-col h-full group">
+                    <div class="mb-6">
+                        <h3 class="font-display text-2xl text-brown-800 group-hover:text-gold transition-colors">${s.title}</h3>
+                        <div class="w-12 h-0.5 bg-gold/30 mt-2 group-hover:w-20 transition-all duration-500"></div>
+                    </div>
+                    <p class="text-brown-600 mb-8 flex-grow leading-relaxed">${s.description}</p>
+                    ${showPrice ? `<div class="mb-6"><span class="text-2xl font-semibold text-olive-600">${s.price}</span></div>` : ''}
+                    ${features.length > 0 ? `
+                        <ul class="space-y-3 mb-8">
+                            ${features.map(f => `
+                                <li class="flex items-start gap-3 text-sm text-brown-600">
+                                    <span class="mt-1 w-1.5 h-1.5 bg-gold rounded-full flex-shrink-0"></span>
+                                    <span>${f}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    ` : ''}
+                    <a href="#contato" class="btn-secondary w-full text-center py-3 rounded-full font-medium mt-auto">
+                        Saber Mais
+                    </a>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // --- ESPAÇO ELÊUSIS (espaco.html) ---
+    const postsContainer = document.getElementById('espaco-posts-container');
+    if (postsContainer && content.espaco) {
+        const posts = content.espaco.posts || [];
+        if (posts.length === 0) {
+            postsContainer.innerHTML = '<p class="text-center text-brown-600 py-12">Nenhum post encontrado.</p>';
+        } else {
+            postsContainer.innerHTML = posts.map(post => `
+                <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-cream-200 mb-12">
+                    ${post.image ? `
+                        <div class="aspect-video overflow-hidden">
+                            <img src="${resolveImagePath(post.image)}" alt="${post.title}" class="w-full h-full object-cover">
+                        </div>
+                    ` : ''}
+                    <div class="p-8 md:p-12">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="px-3 py-1 bg-olive-100 text-olive-700 text-xs font-semibold rounded-full uppercase tracking-wider">
+                                ${post.category || 'Reflexão'}
+                            </span>
+                            <span class="text-brown-400 text-sm">${post.date || ''}</span>
+                        </div>
+                        <h2 class="font-display text-3xl md:text-4xl text-brown-800 mb-6">${post.title}</h2>
+                        ${post.quote ? `
+                        <div class="bg-cream-50 rounded-xl p-6 mb-8 border-l-4 border-gold italic">
+                            <p class="font-display text-xl text-brown-700">"${post.quote}"</p>
+                            ${post.quoteAuthor ? `<p class="text-brown-500 mt-2 text-sm">— ${post.quoteAuthor}</p>` : ''}
+                        </div>
+                        ` : ''}
+                        <div class="prose prose-brown max-w-none text-brown-600 leading-relaxed text-lg">
+                            ${post.description || post.content || ''}
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+    }
+
+    // --- CONTATO (index.html) ---
+    const whatsappLinks = document.querySelectorAll('a[href*="wa.me"]');
+    if (whatsappLinks.length > 0 && content.contato.whatsapp) {
+        const cleanPhone = content.contato.whatsapp.replace(/\D/g, '');
+        whatsappLinks.forEach(link => {
+            const currentHref = link.getAttribute('href');
+            const textMatch = currentHref.match(/text=([^&]*)/);
+            const text = textMatch ? textMatch[1] : '';
+            link.setAttribute('href', `https://wa.me/${cleanPhone}${text ? `?text=${text}` : ''}`);
+        });
+    }
+}
+
+/**
+ * Salva o conteúdo no localStorage
+ */
+function saveContent(content) {
+    if (!content) return;
+    localStorage.setItem('SITE_CONTENT', JSON.stringify(content));
+    console.log('Conteúdo salvo no localStorage');
+}
+
+/**
+ * Wrapper para aplicar conteúdo (usado por scripts externos)
+ */
+function applyContent(content) {
+    SITE_CONTENT = content;
+    applyContentToSite(content);
+}
+
+/**
+ * Renderiza o conteúdo para a página "Saber Mais" (sobre-mim.html)
+ */
+function renderSaberMaisContent(content) {
+    // Esta função é um placeholder pois sobre-mim.html tem sua própria lógica
+    // mas é exportada para evitar erros de referência
+    if (typeof applySobreMimContent === 'function') {
+        applySobreMimContent(content);
+    }
+}
+
+/**
+ * Realiza um merge profundo de dois objetos
+ */
+function deepMerge(target, source) {
+    const output = Object.assign({}, target);
+    if (isObject(target) && isObject(source)) {
+        Object.keys(source).forEach(key => {
+            if (isObject(source[key])) {
+                if (!(key in target))
+                    Object.assign(output, { [key]: source[key] });
+                else
+                    output[key] = deepMerge(target[key], source[key]);
+            } else {
+                Object.assign(output, { [key]: source[key] });
+            }
+        });
+    }
+    return output;
+}
+
+function isObject(item) {
+    return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
 // ============ UTILITY FUNCTIONS ============
