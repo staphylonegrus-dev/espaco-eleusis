@@ -134,8 +134,12 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         return cleaned
 
     def log_message(self, format, *args):
-        # Log simple
+        # Log con estado y respuesta
         print(f"[{datetime.now().strftime('%H:%M:%S')}] {args[0]}")
+
+    def send_response(self, code, message=None):
+        super().send_response(code, message)
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] Response: {code}")
 
 
 def main():

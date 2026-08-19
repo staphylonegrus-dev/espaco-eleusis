@@ -4,6 +4,9 @@
  * Permite editar textos, imágenes y toggle de precios
  */
 
+// Global content state
+let SITE_CONTENT = null;
+
 // Default content configuration
 const DEFAULT_CONTENT = {
     hero: {
@@ -385,6 +388,18 @@ function generateLivePreview(section) {
 function renderContentEditor() {
     const container = document.getElementById('content-editor');
     if (!container) return;
+    
+    if (!SITE_CONTENT) {
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-12 text-brown-500">
+                <svg class="w-12 h-12 mb-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                <p>Carregando conteúdo...</p>
+            </div>
+        `;
+        return;
+    }
     
     const content = SITE_CONTENT;
     
@@ -1414,16 +1429,27 @@ function saveContentChanges() {
 
 // Save content to server
 async function saveContentToServer(content) {
-    // Trigger download of site-content.json
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(content, null, 2));
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "site-content.json");
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-    showToast('Arquivo site-content.json baixado. Substitua o arquivo original com ele.', 'success');
-    return true;
+    try {
+        const response = await fetch('/api/content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content: content })
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao salvar no servidor');
+        }
+        
+        showToast('Conteúdo salvo no servidor com sucesso!', 'success');
+        return true;
+    } catch (error) {
+        console.error('Erro ao salvar no servidor:', error);
+        showToast('Erro ao salvar: ' + error.message, 'error');
+        return false;
+    }
 }
 
 // Show toast notification
@@ -1718,20 +1744,15 @@ async function initContentManagement() {
         if (serverContent) {
             // Merge com o conteúdo padrão para garantir que todos os campos existam
             SITE_CONTENT = deepMerge(loadContent(), serverContent);
-            console.log('Conteúdo carregado do servidor com sucesso');
+            console.log('Conteúdo carregado do servidor com sucesso:', SITE_CONTENT);
         } else {
             // Se falhar, carregar do localStorage ou usar padrão
             SITE_CONTENT = loadContent();
-            console.log('Usando conteúdo padrão/localStorage');
+            console.log('Usando conteúdo padrão/localStorage:', SITE_CONTENT);
         }
         
         // 2. Aplicar conteúdo ao site (se estiver na index ou espaço)
         applyContentToSite(SITE_CONTENT);
-        
-        // 3. Se estiver na página de administração, renderizar o editor
-        if (document.getElementById('admin-editor')) {
-            renderContentEditor();
-        }
         
         return SITE_CONTENT;
     } catch (error) {

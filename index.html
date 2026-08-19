@@ -272,9 +272,10 @@
     <section id="sobre" class="bg-cream-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <div class="order-2 lg:order-1">
+<div class="order-2 lg:order-1">
                     <div class="relative w-64 h-64 mx-auto lg:w-80 lg:h-80">
                         <img 
+                            id="sobre-image"
                             src="fotodemalu.jpeg" 
                             alt="Malu - Psicóloga Junguiana em São Paulo"
                             class="w-full h-full object-cover object-top rounded-full shadow-md"
@@ -562,5 +563,9 @@
     
     <!-- Admin Content Management Script -->
     <script src="admin-content.js"></script>
+    <script>
+        // Initialize content management on index.html
+        initContentManagement();
+    </script>
 </body>
 </html>

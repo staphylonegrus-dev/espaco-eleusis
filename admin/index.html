@@ -630,7 +630,12 @@
         
         // ============ ADMIN PANEL INIT ============
         
-        function initAdminPanel() {
+        async function initAdminPanel() {
+            // Initialize content management system first
+            if (typeof initContentManagement === 'function') {
+                await initContentManagement();
+            }
+            
             renderBookings();
             if (typeof renderContentEditor === 'function') {
                 renderContentEditor();
@@ -640,7 +645,7 @@
         
         // ============ TABS ============
         
-        function switchAdminTab(tab) {
+        async function switchAdminTab(tab) {
             // Hide all tabs
             document.getElementById('admin-tab-agendamentos')?.classList.add('hidden');
             document.getElementById('admin-tab-conteudo')?.classList.add('hidden');
@@ -666,8 +671,13 @@
             }
             
             // If switching to content tab, render the editor
-            if (tab === 'conteudo' && typeof renderContentEditor === 'function') {
-                renderContentEditor();
+            if (tab === 'conteudo') {
+                if (typeof initContentManagement === 'function') {
+                    await initContentManagement();
+                }
+                if (typeof renderContentEditor === 'function') {
+                    renderContentEditor();
+                }
             }
         }
         
