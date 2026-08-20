@@ -11,7 +11,7 @@
   "sobre": {
     "title": "Malu (Maria Lucia)",
     "subtitle": "Sobre Mim",
-    "description": "Psicóloga Clínica com mais de 25 anos de experiência (desde 1994), especializada na abordagem Junguiana.",
+    "description": "Psicóloga Clínica com mais de 25 anos de experiência (desde 1994). Psicoterapia de Abordagem Junguiana.",
     "description2": "Minha trajetória combina a prática clínica com a pesquisa acadêmica, oferecendo um espaço seguro e fundamentado para o seu processo de autoconhecimento e transformação.",
     "bioLonga": "Minha jornada profissional começou em 1987, quando me formei em História pela PUC-SP. Essa formação inicial me proporcionou uma base sólida para compreender as narrativas humanas e os contextos culturais que moldam nossas experiências.\n\nAo longo de mais de 25 anos de atuação como psicóloga clínica, tenho acompanhado pessoas em seus processos de autoconhecimento, acolhendo cada história com escuta sensível e compromisso ético. A abordagem junguiana me permite olhar para o indivíduo em sua totalidade, valorizando os símbolos, os sonhos e as narrativas que dão sentido à vida.\n\nMinha trajetória acadêmica inclui um Mestrado em Saúde Coletiva pela UNIFESP (2018) e uma especialização como Instrutora de Mindfulness, certificada desde 2017. Atuei como pesquisadora e coordenadora no Ambulatório de Mindfulness Brasil (Mente Aberta/UNIFESP), integrando a prática clínica com a pesquisa científica.\n\nAcredito que o encontro terapêutico é um espaço de renascimento, onde é possível ressignificar dores, descobrir potencialidades e florescer em cada ciclo da vida. Minha abordagem combina a profundidade da psicologia junguiana com as práticas de atenção plena, oferecendo um caminho para o autoconhecimento e a transformação pessoal.",
     "galeria": [],
@@ -19,25 +19,13 @@
     "imageAlt": "Malu - Psicóloga Junguiana em São Paulo",
     "imagePosition": {
       "x": 50,
-      "y": 32
+      "y": 0
     },
     "credentials": [
-      {
-        "title": "Mestre em Saúde Coletiva",
-        "subtitle": "UNIFESP, 2018"
-      },
-      {
-        "title": "Pesquisadora e Coordenadora",
-        "subtitle": "Ambulatório de Mindfulness Brasil (Mente Aberta/UNIFESP)"
-      },
-      {
-        "title": "Historiadora",
-        "subtitle": "PUC-SP, 1987"
-      },
-      {
-        "title": "Instrutora de Mindfulness Certificada",
-        "subtitle": "Desde 2017"
-      }
+      { "title": "Historiadora", "subtitle": "PUC-SP, 1987" },
+      { "title": "Instrutora de Mindfulness Certificada", "subtitle": "Desde 2017" },
+      { "title": "Mestre em Saúde Coletiva", "subtitle": "UNIFESP, 2018" },
+      { "title": "Pesquisadora e Coordenadora", "subtitle": "Ambulatório de Mindfulness Brasil (Mente Aberta/UNIFESP)" }
     ]
   },
   "espaco": {
@@ -64,45 +52,30 @@
     "services": [
       {
         "id": "s1",
-        "icon": "group",
         "title": "Psicoterapia Individual",
         "description": "Atendimento online e presencial. Foco em adultos e saúde mental da mulher.",
-        "price": "",
+        "price": "R$ 250",
         "showPrice": true,
-        "features": [
-          "Abordagem Junguiana",
-          "Saúde mental da mulher",
-          "Gestação e pós-parto",
-          "Prevenção de depressão"
-        ]
+        "icon": "group",
+        "features": ["Abordagem Junguiana", "Saúde mental da mulher", "Gestação e pós-parto", "Prevenção de depressão"]
       },
       {
         "id": "s2",
-        "icon": "globe",
         "title": "Mindfulness (Atenção Plena)",
         "description": "Protocolo MBHP para redução de estresse e ansiedade, desenvolvido na UNIFESP.",
-        "price": "",
+        "price": "R$ 200",
         "showPrice": true,
-        "features": [
-          "Redução de estresse",
-          "Controle de ansiedade",
-          "Protocolo MBHP/UNIFESP",
-          "Grupos e individuais"
-        ]
+        "icon": "globe",
+        "features": ["Redução de estresse", "Controle de ansiedade", "Protocolo MBHP/UNIFESP", "Grupos e individuais"]
       },
       {
         "id": "s3",
-        "icon": "book",
         "title": "Workshops e Vivências",
         "description": "Vivências transformadoras para autoconhecimento e desenvolvimento pessoal.",
-        "price": "",
+        "price": "R$ 350",
         "showPrice": true,
-        "features": [
-          "Jornada das Heroínas",
-          "Cursos especializados",
-          "Retiros espirituais",
-          "Vivências em grupo"
-        ]
+        "icon": "book",
+        "features": ["Jornada das Heroínas", "Cursos especializados", "Retiros espirituais", "Vivências em grupo"]
       }
     ]
   },
@@ -112,5 +85,6 @@
     "description": "Escolha o serviço, selecione a data e horário disponíveis",
     "whatsapp": "+55 11 97275-0589",
     "email": "espacoeleusis@gmail.com"
-  }
+  },
+  "_lastUpdated": "2026-08-20T01:00:00"
 }

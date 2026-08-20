@@ -159,7 +159,7 @@ async function loadContentFromServer() {
         console.log('Using localStorage/defaults:', e.message);
     }
     // Fallback to localStorage
-    const stored = localStorage.getItem('eleusis_content');
+    const stored = localStorage.getItem('SITE_CONTENT');
     if (stored) {
         try {
             const parsed = migrateContent(JSON.parse(stored));
@@ -1427,29 +1427,23 @@ function saveContentChanges() {
     showToast('Conteúdo salvo com sucesso!', 'success');
 }
 
-// Save content to server
-async function saveContentToServer(content) {
-    try {
-        const response = await fetch('/api/content', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ content: content })
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Erro ao salvar no servidor');
-        }
-        
-        showToast('Conteúdo salvo no servidor com sucesso!', 'success');
-        return true;
-    } catch (error) {
-        console.error('Erro ao salvar no servidor:', error);
-        showToast('Erro ao salvar: ' + error.message, 'error');
-        return false;
-    }
+// Save content as downloadable JSON file
+function downloadContentAsJson(content) {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(content, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "site-content.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+    
+    showToast('JSON descargado. Súbelo a Cloudflare para aplicar los cambios.', 'success');
+}
+
+// Save content to local file (download)
+function saveContentToServer(content) {
+    downloadContentAsJson(content);
+    return true;
 }
 
 // Show toast notification
