@@ -7,6 +7,7 @@
     "dev": "npx wrangler pages dev . --port=8788",
     "deploy": "npx wrangler pages deploy . --project-name=espaco-eleusis",
     "deploy:preview": "npx wrangler pages deploy . --project-name=espaco-eleusis --branch=preview",
+    "build": "npx wrangler pages deploy . --project-name=espaco-eleusis",
     "init-kv": "node scripts/init-kv.js",
     "kv:create": "npx wrangler kv:namespace create SITE_CONTENT_KV",
     "kv:put": "node scripts/init-kv.js",
