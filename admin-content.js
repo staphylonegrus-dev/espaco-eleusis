@@ -139,24 +139,21 @@ function loadContent() {
     return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
 }
 
-// Load content from server asynchronously
+// Load content from Cloudflare KV via Functions API
 async function loadContentFromServer() {
     try {
-        // Determine correct path to site-content.json based on current page location
-        const isInAdmin = window.location.pathname.includes('/admin/');
-        const contentPath = isInAdmin ? '../site-content.json' : 'site-content.json';
-        
-        // Fetch the static JSON file
-        const response = await fetch(contentPath);
-        if (!response.ok) throw new Error('File not found');
+        // Call Cloudflare Pages Function API endpoint
+        const response = await fetch('/api/content');
+        if (!response.ok) throw new Error('KV not found or error');
         const data = await response.json();
-        // Merge and return
-        const parsed = migrateContent(data);
+        if (!data.success) throw new Error(data.error || 'API error');
+        
+        const parsed = migrateContent(data.content);
         const merged = deepMerge(JSON.parse(JSON.stringify(DEFAULT_CONTENT)), parsed);
         delete merged._lastUpdated;
         return merged;
     } catch(e) {
-        console.log('Using localStorage/defaults:', e.message);
+        console.log('Using localStorage/defaults (KV not available):', e.message);
     }
     // Fallback to localStorage
     const stored = localStorage.getItem('SITE_CONTENT');
@@ -167,6 +164,21 @@ async function loadContentFromServer() {
         } catch(e) {
             return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
         }
+    }
+    // Fallback to static site-content.json file
+    try {
+        const isInAdmin = window.location.pathname.includes('/admin/');
+        const contentPath = isInAdmin ? '../site-content.json' : 'site-content.json';
+        const response = await fetch(contentPath);
+        if (response.ok) {
+            const data = await response.json();
+            const parsed = migrateContent(data);
+            const merged = deepMerge(JSON.parse(JSON.stringify(DEFAULT_CONTENT)), parsed);
+            delete merged._lastUpdated;
+            return merged;
+        }
+    } catch(e) {
+        console.log('Static JSON fallback failed:', e.message);
     }
     return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
 }
@@ -1440,10 +1452,37 @@ function downloadContentAsJson(content) {
     showToast('JSON descargado. Súbelo a Cloudflare para aplicar los cambios.', 'success');
 }
 
-// Save content to local file (download)
-function saveContentToServer(content) {
-    downloadContentAsJson(content);
-    return true;
+// Save content to Cloudflare KV via Functions API
+async function saveContentToServer(content) {
+    try {
+        const response = await fetch('/api/content', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content })
+        });
+        
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.error || 'Error al guardar en KV');
+        }
+        
+        console.log('Contenido guardado en Cloudflare KV:', data.message);
+        
+        // Also save to localStorage as backup
+        saveContent(content);
+        
+        // Also offer JSON download as backup
+        downloadContentAsJson(content);
+        
+        return true;
+    } catch (error) {
+        console.error('Error guardando en KV:', error);
+        // Fallback: save to localStorage and offer download
+        saveContent(content);
+        downloadContentAsJson(content);
+        showToast('Advertencia: Guardado solo localmente. ' + error.message, 'error');
+        return false;
+    }
 }
 
 // Show toast notification

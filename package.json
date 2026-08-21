@@ -1,0 +1,27 @@
+{
+  "name": "espaco-eleusis",
+  "version": "1.0.0",
+  "description": "Espaço Elêusis - Psicologia Junguiana & Mindfulness em São Paulo",
+  "type": "module",
+  "scripts": {
+    "dev": "npx wrangler pages dev . --port=8788",
+    "deploy": "npx wrangler pages deploy . --project-name=espaco-eleusis",
+    "deploy:preview": "npx wrangler pages deploy . --project-name=espaco-eleusis --branch=preview",
+    "init-kv": "node scripts/init-kv.js",
+    "kv:create": "npx wrangler kv:namespace create SITE_CONTENT_KV",
+    "kv:put": "node scripts/init-kv.js",
+    "cf:login": "npx wrangler login",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "cloudflare-pages",
+    "kv",
+    "cms",
+    "static-site"
+  ],
+  "author": "Espaço Elêusis",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

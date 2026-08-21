@@ -1,0 +1,15 @@
+name = "espaco-eleusis"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "SITE_CONTENT_KV"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+preview_id = "YOUR_KV_PREVIEW_ID_HERE"
+
+# Variables de entorno
+[vars]
+ENVIRONMENT = "production"
+
+# Configuración de Pages Functions
+[functions]
+node_compat = true
